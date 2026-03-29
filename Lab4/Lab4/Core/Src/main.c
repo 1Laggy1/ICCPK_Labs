@@ -99,7 +99,7 @@ int main(void)
   // Ініціалізація ESC (подаємо 1 мс при старті, щоб ESC активувався)
   __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, esc_pulse1);
   __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, esc_pulse2);
-  HAL_Delay(2000); // Чекаємо 2 секунди для ініціалізації ESC
+  //HAL_Delay(2000); // Чекаємо 2 секунди для ініціалізації ESC
   /* USER CODE END 2 */
 
   /* Infinite loop */

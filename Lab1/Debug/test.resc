@@ -1,0 +1,4 @@
+mach create "STM32F4"
+machine LoadPlatformDescription @platforms/boards/stm32f4_discovery.repl
+sysbus LoadELF @Lab1.elf
+start

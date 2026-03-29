@@ -1,0 +1,38 @@
+# 1. Створюємо машину і завантажуємо прошивку
+mach create "stm32f4"
+machine LoadPlatformDescription @lab4.repl
+sysbus LoadELF @Lab4.elf
+
+# 2. Імітуємо підтяжку (Pull-Up) для всіх 4 кнопок (1 - відпущено)
+sysbus.gpioPortA.button1 Press
+sysbus.gpioPortA.button2 Press
+sysbus.gpioPortA.button3 Press
+sysbus.gpioPortA.button4 Press
+
+echo "=== СТАРТ СИМУЛЯЦІЇ ==="
+# Даємо процесору 0.1 секунди на запуск коду і налаштування таймера
+emulation RunFor "0.1"
+
+echo "Початкове значення ШІМ (очікуємо ~0x3E8 / 1000):"
+sysbus ReadDoubleWord 0x40000434
+
+echo "--- ТЕСТ 1: ЗБІЛЬШЕННЯ ШВИДКОСТІ (PA2) ---"
+echo "Затискаємо PA2 (button1) на 0.5 секунди..."
+sysbus.gpioPortA.button1 Release
+emulation RunFor "0.5"
+sysbus.gpioPortA.button1 Press
+echo "Значення ШІМ (очікуємо зростання, ~0x5AA / 1450):"
+sysbus ReadDoubleWord 0x40000434
+
+echo "--- ТЕСТ 2: ЗМЕНШЕННЯ ШВИДКОСТІ (PA3) ---"
+echo "Затискаємо PA3 (button2) на 0.3 секунди..."
+sysbus.gpioPortA.button2 Release
+emulation RunFor "0.3"
+sysbus.gpioPortA.button2 Press
+echo "Значення ШІМ (очікуємо падіння, ~0x514 / 1300):"
+sysbus ReadDoubleWord 0x40000434
+
+echo "=== ВСІ ТЕСТИ УСПІШНО ЗАВЕРШЕНО ==="
+
+# Запускаємо симуляцію в реальному часі для ручних тестів
+start

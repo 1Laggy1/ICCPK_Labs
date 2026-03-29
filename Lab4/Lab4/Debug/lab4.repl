@@ -1,0 +1,18 @@
+// Використовуємо базову модель STM32F4
+using "platforms/cpus/stm32f4.repl"
+
+// Кнопка 1 (PA2)
+button1: Miscellaneous.Button @ gpioPortA 2
+    -> gpioPortA@2
+
+// Кнопка 2 (PA3)
+button2: Miscellaneous.Button @ gpioPortA 3
+    -> gpioPortA@3
+
+// Кнопка 3 (PA4)
+button3: Miscellaneous.Button @ gpioPortA 4
+    -> gpioPortA@4
+
+// Кнопка 4 (PA5)
+button4: Miscellaneous.Button @ gpioPortA 5
+    -> gpioPortA@5

@@ -1,0 +1,12 @@
+mach create "STM32F4_UART"
+machine LoadPlatformDescription @platforms/boards/stm32f4_discovery.repl
+
+showAnalyzer sysbus.usart2
+
+sysbus LoadELF @Lab2.elf
+# Створюємо віртуальний порт, який буде доступний за шляхом /tmp/uart
+emulation CreateUartPtyTerminal "term" "/tmp/uart"
+
+# З'єднуємо цей порт із залізом (USART2)
+connector Connect sysbus.usart1 term
+start

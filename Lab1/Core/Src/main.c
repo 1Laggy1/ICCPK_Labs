@@ -58,11 +58,8 @@ static void MX_GPIO_Init(void);
 /* USER CODE BEGIN 0 */
 void delay_cycles(uint32_t n)
 {
-    // volatile не дає оптимізатору викинути порожній цикл
     for(volatile uint32_t i = 0; i < n; i++);
 }
-/* USER CODE END 0 */
-
 /* USER CODE END 0 */
 
 /**
@@ -102,20 +99,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    // Формуємо пакет із 8 імпульсів
       for (int i = 0; i < 8; i++) 
       {
-          // 1. Подаємо сигнал (в Open-Drain SET — це високий рівень через резистор)
           HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
           delay_cycles(1050000); // Приблизно 50 мс при 84 МГц
 
-          // 2. Притягуємо до землі (низький рівень)
           HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
           delay_cycles(1050000); // Приблизно 50 мс
       }
 
-      // Пауза 1 секунда після завершення пакету
-      // Розрахунок: (84 000 000 Гц / 4 такти на цикл) = 21 000 000
       delay_cycles(21000000);
 
     /* USER CODE END WHILE */
